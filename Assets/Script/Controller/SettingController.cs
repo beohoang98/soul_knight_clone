@@ -35,6 +35,7 @@ public class SettingController : MonoBehaviour
         } else
         {
             Destroy(this);
+            return;
         }
 
         string resolutionSaved = PlayerPrefs.GetString("resolution", "640x360");

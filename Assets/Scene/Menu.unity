@@ -3191,7 +3191,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1676922705}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_Dropdown, TextMeshPro-5.6-Runtime
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_Dropdown, Unity.TextMeshPro
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 0
