@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    Rigidbody2D rigid;
-    SpriteRenderer renderer;
-    public float speed = 5f;
+    SpriteRenderer spriteRenderer;
+
+    public GameObject weapon;
 
     // Start is called before the first frame update
     void Start()
     {
-        this.rigid = GetComponent<Rigidbody2D>();
-        this.renderer = GetComponent<SpriteRenderer>();
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -32,12 +31,10 @@ public class Player : MonoBehaviour
 
         if (direction.x < 0)
         {
-            this.renderer.flipX = true;
+            this.spriteRenderer.flipX = true;
         } else
         {
-            this.renderer.flipX = false;
+            this.spriteRenderer.flipX = false;
         }
-        
-        this.rigid.velocity = direction.normalized * this.speed;
     }
 }
