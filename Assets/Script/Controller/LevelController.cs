@@ -18,6 +18,10 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         if (!_instance) _instance = this;
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
 
@@ -28,22 +32,27 @@ public class LevelController : MonoBehaviour
         StartCoroutine(loadScene(levelSaved + 1));
     }
 
+    public void returnBase()
+    {
+        StartCoroutine(loadScene(0));
+    }
+
     IEnumerator loadScene(int level)
     {
         Debug.Log("load level " + level);
         progress.value = 0;
         loadingScreen.SetActive(true);
-
-        yield return new WaitForSeconds(1f);
         AsyncOperation operation = SceneManager.LoadSceneAsync(level, LoadSceneMode.Single);
 
         while (!operation.isDone)
         {
             progress.value = operation.progress * 100;
+            Debug.Log($"Load {progress.value}%");
             yield return null;
         }
 
         loadingScreen.SetActive(false);
+        yield return null;
     }
 
     // Update is called once per frame

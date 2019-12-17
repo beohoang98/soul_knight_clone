@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuController : MonoBehaviour {
-
+public class IngameMenuController : MonoBehaviour {
+    public Canvas canvas;
     public GameObject MainMenu;
     public GameObject SettingMenu;
 
     void Start () {
-        if (!SettingMenu || !MainMenu)
+        if (!SettingMenu || !MainMenu || !canvas)
         {
             Debug.LogError("menu object missing");
             throw new System.Exception("menu object missing");
@@ -29,6 +29,19 @@ public class MenuController : MonoBehaviour {
         SettingMenu.SetActive(false);
     }
 
+    public void Toggle()
+    {
+        Debug.Log("Menu toggle");
+        if (GameController.Instance.isPlaying)
+        {
+            GameController.Instance.PauseGame();
+        } else
+        {
+            GameController.Instance.StartGame();
+        }
+        canvas.gameObject.SetActive(!canvas.gameObject.activeSelf);
+    }
+
     public void ReturnBase()
     {
         LevelController.Instance.returnBase();
@@ -41,6 +54,9 @@ public class MenuController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            this.Toggle();
+        }
 	}
 }
