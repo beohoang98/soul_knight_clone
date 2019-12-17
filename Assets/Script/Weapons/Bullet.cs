@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BigDugeonEnemy : BaseEnemy
+public class Bullet : MonoBehaviour
 {
 
-
     // Use this for initialization
-    new void Start()
+    void Start()
     {
-        base.Start();
+
     }
 
     // Update is called once per frame
-    new void Update()
+    void Update()
     {
-        base.Update();
+
     }
 }
