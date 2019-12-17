@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cake.Warp</name>
+    </assembly>
+    <members>
+        <member name="T:Cake.Warp.Common.AddinConfiguration">
+            <summary>
+              Configuration class responsible for holding
+              Addin values only used internally.
+            </summary>
+        </member>
+        <member name="P:Cake.Warp.Common.AddinConfiguration.Instance">
+            <summary>
+              Gets the singleton instance of the addin configuration class.
+            </summary>
+        </member>
+        <member name="P:Cake.Warp.Common.AddinConfiguration.AssemblyDirectoryPath">
+            <summary>
+              Gets the current path to the executing assembly directory.
+            </summary>
+        </member>
+        <member name="P:Cake.Warp.Common.AddinConfiguration.WarpFilePath">
+            <summary>
+              Gets or sets the full file path to the warp binary file.
+            </summary>
+            <notes>
+              This should/will be set in the
+              <see cref="M:Cake.Warp.ModuleInitializer.Initialize" />
+              during library loading.
+            </notes>
+        </member>
+        <member name="P:Cake.Warp.Common.AddinConfiguration.IsLinux">
+            <summary>
+              Gets a value indicating whether we are running
+              on the Linux platform or not.
+            </summary>
+        </member>
+        <member name="P:Cake.Warp.Common.AddinConfiguration.IsMacOS">
+            <summary>
+              Gets a value indicating whether we are running
+              on the Mac OSX platform or not.
+            </summary>
+        </member>
+        <member name="P:Cake.Warp.Common.AddinConfiguration.IsWindows">
+            <summary>
+              Gets a value indicating whether we are running
+              on the Windows platform or not.
+            </summary>
+        </member>
+        <member name="T:Cake.Warp.ModuleInitializer">
+            <summary>
+            Module class responsible for the logic needed
+            to run when the library is loaded.
+            </summary>
+        </member>
+        <member name="M:Cake.Warp.ModuleInitializer.Initialize">
+            <summary>
+            The actual method that will be called during
+            the loading of the addin library (by Module.Fody IL weaving).
+            </summary>
+            <notes>
+              While this method is public, it should never be
+              called manually. It should only be called
+              using the existing IL weaving.
+            </notes>
+        </member>
+        <member name="T:Cake.Warp.WarpAliases">
+            <summary>
+            <para>
+            Runs the warp binary (embedded in addin) to create a
+            stand-alone packed binary for supported platforms.
+            </para>
+            <para>
+            In order to use the commands for this addin, you will need
+            to include the following in your cake script.
+            </para>
+            <code>
+            #addin nuget:?package=Cake.Warp&amp;version=0.1.0
+            </code>
+            </summary>
+        </member>
+        <member name="M:Cake.Warp.WarpAliases.Warp(Cake.Core.ICakeContext,Cake.Core.IO.DirectoryPath,System.String,Cake.Core.IO.FilePath,Cake.Warp.WarpPlatforms)">
+             <summary>
+             Runs the warp packer binary on the specified
+             <paramref name="inputDirectory" />, and outputs the
+             resulting packed binary to <paramref name="outputFilePath" />.
+             </summary>
+             <param name="context">The cake context.</param>
+             <param name="inputDirectory">
+             The directory that should be packed into the resulting binary
+             file.
+             </param>
+             <param name="executableName">
+             The name of the file that should be executed when the
+             packed binary is launched by the user. (Needs to already exist
+             in the <paramref name="inputDirectory" />).
+             </param>
+             <param name="outputFilePath">
+             The location where the created packed binary file should
+             be created.
+             </param>
+             <param name="architecture">
+             The architecture/platform to create the binary file for.
+             See <see cref="T:Cake.Warp.WarpPlatforms" /> for valid values.
+             </param>
+             <example>
+             This example shows a basic call to create the packed binary,
+             by first calling dotnet publish to create the program.
+             <code>
+             #addin nuget:?package=Cake.Warp&amp;version=0.1.0
+            
+             Task("Create-Warp-Binary")
+                 .Does(() =>
+             {
+                 DotNetCorePublish("./src/Cake.Warp.Demo", new DotNetCorePublishSettings {
+                     Framework         = "netcoreapp2.0",
+                     RuntimeIdentifier = "linux-x64",
+                     Configuration     = "Release",
+                     OutputDirectory   = "./artifacts/output"
+                 });
+                 Warp("./artifacts/output",
+                      "Cake.Warp.Demo", // Must include .exe if creating for windows
+                      "./artifacts/cake-warp-demo",
+                      WarpPlatforms.LinuxX64
+                 );
+             });
+             </code>
+             </example>
+        </member>
+        <member name="M:Cake.Warp.WarpAliases.Warp(Cake.Core.ICakeContext,Cake.Warp.WarpSettings)">
+             <summary>
+             Runs the warp packer binary with the specified
+             <paramref name="settings" />.
+             </summary>
+             <param name="context">The cake context.</param>
+             <param name="settings">
+             The settings to use when creating the packed binary file.
+             </param>
+             <example>
+             This example shows a basic call to create the packed binary,
+             by first calling dotnet publish to create the program.
+             <code>
+             #addin nuget:?package=Cake.Warp&amp;version=0.1.0
+            
+             Task("Create-Warp-Binary")
+                 .Does(() =>
+             {
+                 DotNetCorePublish("./src/Cake.Warp.Demo", new DotNetCorePublishSettings {
+                     Framework         = "netcoreapp2.0",
+                     RuntimeIdentifier = "win-x64",
+                     Configuration     = "Release",
+                     OutputDirectory   = "./artifacts/output"
+                 });
+                 Warp(new WarpSettings {
+                     InputDirectory = "./artifacts/output",
+                     ExecutableName = "Cake.Warp.Demo.exe,
+                     OutputFilePath = "./artifacts/cake-warp-demo",
+                     Architecture   = WarpPlatform.WindowsX64"
+                 });
+             });
+             </code>
+             </example>
+        </member>
+        <member name="T:Cake.Warp.WarpPlatforms">
+            <summary>
+            The platform to use when creating
+            the self-contained application.
+            </summary>
+        </member>
+        <member name="F:Cake.Warp.WarpPlatforms.LinuxX64">
+            <summary>
+            Create the application as a Linux x64 executable.
+            </summary>
+        </member>
+        <member name="F:Cake.Warp.WarpPlatforms.MacOSX64">
+            <summary>
+            Create the application as a Mac OSX x64 executable.
+            </summary>
+        </member>
+        <member name="F:Cake.Warp.WarpPlatforms.WindowsX64">
+            <summary>
+            Create the application as a Windows x64 executable.
+            </summary>
+        </member>
+        <member name="T:Cake.Warp.WarpRunner">
+            <summary>
+            The runner implementation responsible for
+            passing the correct arguments to the warp packer.
+            </summary>
+        </member>
+        <member name="M:Cake.Warp.WarpRunner.#ctor(Cake.Core.IO.IFileSystem,Cake.Core.ICakeEnvironment,Cake.Core.IO.IProcessRunner,Cake.Core.Tooling.IToolLocator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cake.Warp.WarpRunner" /> class.
+            </summary>
+            <param name="fileSystem">The file system.</param>
+            <param name="environment">The environment.</param>
+            <param name="processRunner">The process runner.</param>
+            <param name="tools">The tool locator.</param>
+        </member>
+        <member name="M:Cake.Warp.WarpRunner.Run(Cake.Warp.WarpSettings)">
+            <summary>
+            Runs the tool using the specified settings.
+            </summary>
+            <param name="settings">The settings to run the tool with.</param>
+        </member>
+        <member name="M:Cake.Warp.WarpRunner.GetToolExecutableNames">
+            <summary>
+            Gets the possible names of the tool executable.
+            </summary>
+            <returns>The tool executable name.</returns>
+        </member>
+        <member name="M:Cake.Warp.WarpRunner.GetToolName">
+            <summary>
+            Gets the name of the tool.
+            </summary>
+            <returns>The name of the tool.</returns>
+        </member>
+        <member name="T:Cake.Warp.WarpSettings">
+            <summary>
+            Contains the settings used by <see cref="T:Cake.Warp.WarpRunner" />.
+            </summary>
+            <remarks>
+            All properties are required
+            (except <see cref="P:Cake.Warp.WarpSettings.Platform" /> as this as just an alias
+            for <see cref="P:Cake.Warp.WarpSettings.Architecture" />).
+            </remarks>
+        </member>
+        <member name="M:Cake.Warp.WarpSettings.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cake.Warp.WarpSettings" /> class,
+            with ToolPath set to the extracted warp binary file.
+            </summary>
+            <remarks>ToolPath can be overridden if desired.</remarks>
+        </member>
+        <member name="P:Cake.Warp.WarpSettings.Architecture">
+            <summary>
+            Gets or sets the platform and architecture to create the
+            self-contained application for.
+            </summary>
+        </member>
+        <member name="P:Cake.Warp.WarpSettings.Platform">
+            <summary>
+            Gets or sets the platform and architecture to create the
+            self-contained application for.
+            </summary>
+            <remarks>
+            This is just an alias for <see cref="P:Cake.Warp.WarpSettings.Architecture" />.
+            </remarks>
+        </member>
+        <member name="P:Cake.Warp.WarpSettings.ExecutableName">
+            <summary>
+            Gets or sets the name of the executable to run after the
+            the created application is being executed by a user.
+            </summary>
+            <remarks>
+            This should only be the filename including the file extension.
+            </remarks>
+        </member>
+        <member name="P:Cake.Warp.WarpSettings.InputDirectory">
+            <summary>
+            Gets or sets the directory that will be packed into the
+            self-contained application.
+            </summary>
+        </member>
+        <member name="P:Cake.Warp.WarpSettings.OutputFilePath">
+            <summary>
+            Gets or sets the output path to where the self-contained application
+            should be created.
+            </summary>
+        </member>
+    </members>
+</doc>
