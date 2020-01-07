@@ -13,6 +13,7 @@ public class LevelController : MonoBehaviour
 
     public GameObject loadingScreen;
     public Slider progress;
+    private int currentLevel;
 
     // Use this for initialization
     void Start()
@@ -29,7 +30,19 @@ public class LevelController : MonoBehaviour
     {
         Debug.Log("load level");
         int levelSaved = PlayerPrefs.GetInt("level", 0);
+
+        currentLevel = levelSaved;
         StartCoroutine(loadScene(levelSaved + 1));
+    }
+
+    public void nextLevel()
+    {
+        Debug.Log("next level");
+
+        gameObject.SetActive(true);
+        int nextLevel = currentLevel + 1;
+        PlayerPrefs.SetInt("level", currentLevel);
+        StartCoroutine(loadScene(nextLevel));
     }
 
     public void returnBase()

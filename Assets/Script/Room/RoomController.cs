@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using Pathfinding;
+using UnityEngine.Events;
 
 public class RoomController : MonoBehaviour
 {
     public List<RoomGate> gates;
     public List<BaseEnemy> enemiesInRoom;
+    public UnityEvent onSolved;
 
     // Use this for initialization
     void Start()
@@ -33,6 +36,8 @@ public class RoomController : MonoBehaviour
         {
             gate.gameObject.SetActive(false);
         }
+        if (onSolved != null && onSolved.GetPersistentEventCount() > 0)
+            onSolved.Invoke();
     }
 
     // Update is called once per frame

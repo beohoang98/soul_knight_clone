@@ -12,7 +12,6 @@ public class BaseEnemy : MonoBehaviour
     public float health
     {
         get { return _health; }
-        set { Debug.LogError("Cannot modify health"); }
     }
 
     // Use this for initialization
@@ -23,20 +22,27 @@ public class BaseEnemy : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-    { 
-        if (collision.tag == "Sword")
+    {
+        Collider2D collider = collision;
+        Debug.Log("Dungeon: collision " + collider);
+        if (collider.tag == TAG.SWORD)
         {
-            SwordAttack swordAttack = collision.GetComponent<SwordAttack>();
+            SwordAttack swordAttack = collider.GetComponent<SwordAttack>();
             if (swordAttack.attacking)
             {
                 Debug.Log("Attacked" + swordAttack.baseWeapon.damage);
                 swordAttack.attacking = false;
-                this.GotDamage(swordAttack.baseWeapon.damage, collision);
+                this.GotDamage(swordAttack.baseWeapon.damage, collider);
             }
         }
-        else if (collision.tag == "Bullet")
+        else if (collider.tag == TAG.BULLET)
         {
-
+            Bullet bullet = collider.GetComponent<Bullet>();
+            if (bullet != null)
+            {
+                Debug.Log("Attacked" + bullet.GetDamage());
+                this.GotDamage(bullet.GetDamage(), collider);
+            }
         }
     }
 

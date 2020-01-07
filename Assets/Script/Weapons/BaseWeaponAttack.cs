@@ -19,7 +19,7 @@ public class BaseWeaponAttack : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && baseWeapon.parentEntity != null)
         {
             this.StartAttack();
         }
