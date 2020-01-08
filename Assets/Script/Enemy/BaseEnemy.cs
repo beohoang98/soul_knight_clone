@@ -61,6 +61,8 @@ public class BaseEnemy : MonoBehaviour
 
     protected virtual void OnAttacked(Collider2D collider) {}
     protected virtual void OnDie() {
+        Parameters.scoreValue += 10;
+        Debug.Log("Die: "+Parameters.scoreValue);
         Destroy(gameObject);
     }
 
