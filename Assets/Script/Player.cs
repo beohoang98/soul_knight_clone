@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
 
+
     public GameObject weapon;
 
     // Start is called before the first frame update
