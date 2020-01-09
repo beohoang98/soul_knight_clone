@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
 
     private void followMouse()
     {
-        Vector2 mousePosition = (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = new Vector2(
                 mousePosition.x - transform.position.x,
                 mousePosition.y - transform.position.y
@@ -32,9 +32,19 @@ public class Player : MonoBehaviour
         if (direction.x < 0)
         {
             this.spriteRenderer.flipX = true;
-        } else
+        }
+        else
         {
             this.spriteRenderer.flipX = false;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        Debug.Log("xyz: " + other.collider.tag + " - " + ParametersScript.healValue);
+        if (TAG.ENEMY == other.collider.tag)
+        {
+            ParametersScript.healValue -= 50;
         }
     }
 }
