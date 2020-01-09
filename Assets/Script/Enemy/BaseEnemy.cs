@@ -63,6 +63,7 @@ public class BaseEnemy : MonoBehaviour
 
     protected virtual void OnAttacked(Collider2D collider) {}
     protected virtual void OnDie() {
+        ParametersScript.scoreValue += 10;
         Destroy(gameObject);
     }
 
