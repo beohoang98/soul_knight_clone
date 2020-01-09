@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
 
     public GameObject weapon;
 
+    float count = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,9 +45,38 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         Debug.Log("xyz: " + other.collider.tag + " - " + ParametersScript.healValue);
-        if (TAG.ENEMY == other.collider.tag)
+        switch (other.collider.tag)
         {
-            ParametersScript.healValue -= 50;
+            case TAG.ENEMY:
+                ParametersScript.healValue -= 100;
+                break;
+            case TAG.ENEMY_BULLET:
+                ParametersScript.healValue -= 200;
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        count += Time.deltaTime;
+        if (count > 1)
+        {
+            switch (other.collider.tag)
+            {
+                case TAG.ENEMY:
+                    ParametersScript.healValue -= 50;
+                    break;
+                case TAG.ENEMY_BULLET:
+                    ParametersScript.healValue -= 100;
+                    break;
+                default:
+                    break;
+
+            }
+            count = 0;
         }
     }
 }
