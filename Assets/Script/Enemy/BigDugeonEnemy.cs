@@ -4,7 +4,6 @@ using System.Collections;
 public class BigDugeonEnemy : BaseEnemy
 {
 
-
     // Use this for initialization
     new void Start()
     {

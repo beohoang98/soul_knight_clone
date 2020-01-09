@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class RoomController : MonoBehaviour
 {
+    private bool isSolved = false;
     public List<RoomGate> gates;
     public List<BaseEnemy> enemiesInRoom;
     public UnityEvent onSolved;
@@ -24,6 +25,8 @@ public class RoomController : MonoBehaviour
                     {
                         setter.target = GameObject.Find("Player")?.transform;
                     }
+
+                    enemy.target = FindObjectOfType<Player>();
                 }
             });
         }
@@ -31,7 +34,11 @@ public class RoomController : MonoBehaviour
 
     public void Solve()
     {
+        if (isSolved) return;
+
         Debug.Log("Solve Room");
+
+        isSolved = true;
         foreach (RoomGate gate in gates)
         {
             gate.gameObject.SetActive(false);
@@ -43,6 +50,8 @@ public class RoomController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isSolved) return;
+
         if (gates.Count > 0)
         {
             List<RoomGate> gatesFiltered = new List<RoomGate>(); 

@@ -48,7 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentEntity: {fileID: 0}
   damage: 3
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 6699239090134201401, guid: 051f677ab0b5886418874a1e0e7791ac,
+    type: 3}
   fireRate: 3
 --- !u!58 &305276353
 CircleCollider2D:

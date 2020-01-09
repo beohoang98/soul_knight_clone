@@ -4,6 +4,8 @@ using System.Collections;
 
 public class BaseEnemy : MonoBehaviour
 {
+    public Player target;
+
     public int maxHealth = 10;
     protected float _health = 0f;
 
