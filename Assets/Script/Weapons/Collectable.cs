@@ -29,10 +29,12 @@ public class Collectable : MonoBehaviour
 
         if (Input.GetButton("Swap"))
         {
-            player.weapon.GetComponent<BaseWeapon>().parentEntity = null;
+            if (player.weapon)
+                player.weapon.GetComponent<BaseWeapon>().parentEntity = null;
 
             player.weapon = gameObject;
             attachedWeapon.parentEntity = player.gameObject;
+            ShowInfo(false);
         }
     }
 
@@ -59,7 +61,9 @@ public class Collectable : MonoBehaviour
             UIController.Instance.showWeaponOnHover(false);
         } else
         {
-            float damageDiff = attachedWeapon.damage - player.weapon.GetComponent<BaseWeapon>().damage;
+            float damageDiff = (player.weapon) 
+                ? attachedWeapon.damage - player.weapon.GetComponent<BaseWeapon>().damage
+                : 0;
             UIController.Instance.updateWeaponOnHover(
                 attachedWeapon.name, 
                 attachedWeapon.damage,

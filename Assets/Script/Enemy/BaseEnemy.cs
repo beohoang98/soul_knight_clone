@@ -4,6 +4,8 @@ using System.Collections;
 
 public class BaseEnemy : MonoBehaviour
 {
+    public Player target;
+
     public int maxHealth = 10;
     protected float _health = 0f;
 
@@ -61,6 +63,7 @@ public class BaseEnemy : MonoBehaviour
 
     protected virtual void OnAttacked(Collider2D collider) {}
     protected virtual void OnDie() {
+        ParametersScript.scoreValue += 10;
         Destroy(gameObject);
     }
 

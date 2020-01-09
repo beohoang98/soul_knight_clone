@@ -20,7 +20,6 @@ public class RoomGate : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.otherCollider);
         if (collision.otherCollider.tag == TAG.GATE_START)
         {
             if (this.enterCallback != null)

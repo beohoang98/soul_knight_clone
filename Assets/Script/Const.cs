@@ -11,4 +11,6 @@ public static class TAG
 
     public const string SWORD = "Sword";
     public const string BULLET = "Bullet";
+
+    public const string ENEMY_BULLET = "EnemyBullet";
 }

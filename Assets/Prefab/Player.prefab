@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 136972100}
   - component: {fileID: 181524849551508097}
   - component: {fileID: 136972098}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 067824c8329017e4d8cba81b4a459396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 8
 --- !u!212 &181524849551508097
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -134,6 +134,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

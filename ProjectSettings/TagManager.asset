@@ -11,6 +11,7 @@ TagManager:
   - Gate_End
   - Bullet
   - Wall
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - Bullet
   - Collectable
   - Enemy
-  - 
+  - EnemyBullet
   - 
   - 
   - 
