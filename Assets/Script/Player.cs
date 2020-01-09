@@ -57,6 +57,11 @@ public class Player : MonoBehaviour
                 break;
 
         }
+        if (ParametersScript.healValue <= 0)
+        {
+            LevelController.Instance.startGame();
+            ParametersScript.healValue = 1000; ;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D other)
@@ -77,6 +82,15 @@ public class Player : MonoBehaviour
 
             }
             count = 0;
+        }
+        if (ParametersScript.healValue <= 0)
+        {
+            int score = PlayerPrefs.GetInt("score", 0);
+            int heal = PlayerPrefs.GetInt("heal", 1000);
+
+            LevelController.Instance.startGame();
+            ParametersScript.healValue = heal;
+            ParametersScript.scoreValue = score;
         }
     }
 }

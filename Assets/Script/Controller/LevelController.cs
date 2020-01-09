@@ -30,6 +30,8 @@ public class LevelController : MonoBehaviour
     {
         Debug.Log("load level");
         int levelSaved = PlayerPrefs.GetInt("level", 0);
+        PlayerPrefs.SetInt("score", ParametersScript.scoreValue);
+        PlayerPrefs.SetInt("heal", ParametersScript.healValue);
 
         currentLevel = levelSaved;
         StartCoroutine(loadScene(levelSaved + 1));
