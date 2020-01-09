@@ -31,7 +31,7 @@ public class LevelController : MonoBehaviour
         Debug.Log("load level");
         int levelSaved = PlayerPrefs.GetInt("level", 0);
 
-        currentLevel = levelSaved;
+        currentLevel = levelSaved + 1;
         StartCoroutine(loadScene(levelSaved + 1));
     }
 
@@ -42,7 +42,8 @@ public class LevelController : MonoBehaviour
         gameObject.SetActive(true);
         int nextLevel = currentLevel + 1;
         PlayerPrefs.SetInt("level", currentLevel);
-        StartCoroutine(loadScene(nextLevel));
+
+        StartCoroutine(loadScene(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
     public void returnBase()

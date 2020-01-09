@@ -8,7 +8,9 @@ public class BasicGun : Gun
         base.Fire();
         Debug.Log("Fire " + transform.localEulerAngles);
 
-        GameObject bulletObj = Instantiate(this.bulletPrefab, this.transform.position, this.transform.localRotation);
+        Vector2 bulletStartPos = transform.position + transform.localRotation * Vector2.up;
+
+        GameObject bulletObj = Instantiate(this.bulletPrefab, bulletStartPos, this.transform.localRotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         if (bullet != null)
         {
